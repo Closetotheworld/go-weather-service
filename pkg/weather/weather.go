@@ -28,13 +28,13 @@ type WeatherApiManagerImpl struct {
 }
 
 func (w *WeatherApiManagerImpl) GetCurrentInfo(lat float32, lon float32) (*WeatherApiCommon, error) {
-
+	return nil, nil
 }
 
 func (w *WeatherApiManagerImpl) GetForecastInfo(lat float32, lon float32, hourOffset int) (*WeatherApiForecast, error) {
-
+	return nil, nil
 }
 
 func (w *WeatherApiManagerImpl) GetHistoricalInfo(lat float32, lon float32, hourOffset int) (*WeatherApiCommon, error) {
-
+	return nil, nil
 }

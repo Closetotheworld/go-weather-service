@@ -12,15 +12,14 @@ import (
 )
 
 type WeatherService struct {
-	weatherApiManager *weather.WeatherApiManager
+	WeatherApiManager *weather.WeatherApiManager
 }
 
 func NewWeatherService(wm weather.WeatherApiManager) domain.WeatherService {
-	return &WeatherService{weatherApiManager: &wm}
+	return &WeatherService{WeatherApiManager: &wm}
 }
 
 func (w WeatherService) GetWeatherSummary(ctx context.Context) (*model.Weather, error) {
-
 	mock := model.Weather{
 		Gretting:   "gretting",
 		Temperture: "temperture",

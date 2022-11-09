@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	API_KEY = "CMRJW4WT7V3QA5AOIGPBC"
+	API_KEY = ""
 	w       = WeatherApiManagerImpl{}
 )
 

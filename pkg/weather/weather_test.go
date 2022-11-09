@@ -75,7 +75,7 @@ func TestWeatherApiManagerImpl_GetHistoricalInfo(t *testing.T) {
 func TestWeatherApiManagerImpl_AsyncRequest(t *testing.T) {
 	t.Run("run", func(t *testing.T) {
 		w.ApiKey = API_KEY
-		current, forecast, historical := w.AsyncRequest("10", "-120")
+		current, forecast, historical, err := w.AsyncRequest("10", "-120")
 		t.Log(current)
 		for i := range forecast {
 			t.Log(forecast[i])
@@ -83,5 +83,6 @@ func TestWeatherApiManagerImpl_AsyncRequest(t *testing.T) {
 		for i := range historical {
 			t.Log(historical[i])
 		}
+		assert.Nil(t, err)
 	})
 }

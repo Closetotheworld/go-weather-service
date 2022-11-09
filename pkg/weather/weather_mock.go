@@ -14,3 +14,7 @@ func (m *MockWeatherApiImpl) GetForecastInfo(lat string, lon string, hourOffset 
 func (m *MockWeatherApiImpl) GetHistoricalInfo(lat string, lon string, hourOffset string) (*WeatherApiCommon, error) {
 	return nil, nil
 }
+
+func (m *MockWeatherApiImpl) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon) {
+	return nil, nil, nil
+}

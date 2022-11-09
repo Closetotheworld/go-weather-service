@@ -2,10 +2,10 @@ package weather
 
 import (
 	"encoding/json"
+	"golang.org/x/sync/errgroup"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"sync"
 )
 
 var (
@@ -31,9 +31,7 @@ type WeatherApiForecast struct {
 }
 
 type WeatherApiManager interface {
-	GetCurrentInfo(lat string, lon string) (*WeatherApiCommon, error)
-	GetForecastInfo(lat string, lon string, hourOffset string) (*WeatherApiForecast, error)
-	GetHistoricalInfo(lat string, lon string, hourOffset string) (*WeatherApiCommon, error)
+	AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon)
 }
 
 type WeatherApiManagerImpl struct {
@@ -155,37 +153,48 @@ func (w *WeatherApiManagerImpl) GetHistoricalInfo(lat string, lon string, hourOf
 	return result, nil
 }
 
-func (w *WeatherApiManagerImpl) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon) {
+func (w *WeatherApiManagerImpl) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error) {
 	var currentWeather *WeatherApiCommon
 	var forecastWeather []*WeatherApiForecast
 	var historicalWeather []*WeatherApiCommon
 
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		currentWeather, _ = w.GetCurrentInfo(lat, lon)
-	}()
+	var eg errgroup.Group
+	eg.Go(func() error {
+		var err error
+		currentWeather, err = w.GetCurrentInfo(lat, lon)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 
 	for fh := range forecastHourOffset {
-		wg.Add(1)
-		go func(hourOffset string) {
-			defer wg.Done()
-			fw, _ := w.GetForecastInfo(lat, lon, hourOffset)
+		eg.Go(func() error {
+			fw, err := w.GetForecastInfo(lat, lon, forecastHourOffset[fh])
+			if err != nil {
+				return err
+			}
 			forecastWeather = append(forecastWeather, fw)
-		}(forecastHourOffset[fh])
+			return nil
+		})
 	}
 
 	for hh := range historicalHourOffset {
-		wg.Add(1)
-		go func(hourOffset string) {
-			defer wg.Done()
-			hw, _ := w.GetHistoricalInfo(lat, lon, hourOffset)
+		eg.Go(func() error {
+			hw, err := w.GetHistoricalInfo(lat, lon, historicalHourOffset[hh])
+			if err != nil {
+				return err
+			}
 			historicalWeather = append(historicalWeather, hw)
-		}(historicalHourOffset[hh])
+			return nil
+		})
 	}
-	wg.Wait()
 
-	return currentWeather, forecastWeather, historicalWeather
+	// request 중 error 발생 시 모든 고루틴 종료를 위함.
+	if err := eg.Wait(); err != nil {
+		return nil, nil, nil, err
+	}
+
+	return currentWeather, forecastWeather, historicalWeather, nil
 
 }

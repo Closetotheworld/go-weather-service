@@ -2,10 +2,13 @@ package weather
 
 import (
 	"encoding/json"
-	"golang.org/x/sync/errgroup"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	// external pacakges
+	"golang.org/x/sync/errgroup"
+	// project packages
 )
 
 var (

@@ -13,7 +13,7 @@ import (
 
 var (
 	API_KEY string
-	PORT    int
+	PORT    string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -52,11 +52,11 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.PersistentFlags().StringVarP(&API_KEY, "API-KEY", "k", "", "api-key")
-	rootCmd.PersistentFlags().IntVarP(&PORT, "PORT", "p", 8080, "port")
+	rootCmd.PersistentFlags().StringVarP(&PORT, "PORT", "p", "8080", "port")
 
 	rootCmd.MarkPersistentFlagRequired("API-KEY")
 }
 
 func runServer() {
-	app.StartServer()
+	app.StartServer(API_KEY, PORT)
 }

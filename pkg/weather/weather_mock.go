@@ -3,14 +3,18 @@ package weather
 type MockWeatherApiImpl struct {
 }
 
-func (m *MockWeatherApiImpl) GetCurrentInfo(lat float32, lon float32) (*WeatherApiCommon, error) {
+func (m *MockWeatherApiImpl) GetCurrentInfo(lat string, lon string) (*WeatherApiCommon, error) {
 	return nil, nil
 }
 
-func (m *MockWeatherApiImpl) GetForecastInfo(lat float32, lon float32, hourOffset int) (*WeatherApiForecast, error) {
+func (m *MockWeatherApiImpl) GetForecastInfo(lat string, lon string, hourOffset string) (*WeatherApiForecast, error) {
 	return nil, nil
 }
 
-func (m *MockWeatherApiImpl) GetHistoricalInfo(lat float32, lon float32, hourOffset int) (*WeatherApiCommon, error) {
+func (m *MockWeatherApiImpl) GetHistoricalInfo(lat string, lon string, hourOffset string) (*WeatherApiCommon, error) {
 	return nil, nil
+}
+
+func (m *MockWeatherApiImpl) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon) {
+	return nil, nil, nil
 }

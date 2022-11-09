@@ -8,13 +8,15 @@ import (
 	// project packages
 	"github.com/closetotheworld/go-weather-service/internal/domain"
 	"github.com/closetotheworld/go-weather-service/internal/model"
+	"github.com/closetotheworld/go-weather-service/pkg/weather"
 )
 
 type WeatherService struct {
+	WeatherApiManager *weather.WeatherApiManager
 }
 
-func NewWeatherService() domain.WeatherService {
-	return &WeatherService{}
+func NewWeatherService(wm weather.WeatherApiManager) domain.WeatherService {
+	return &WeatherService{WeatherApiManager: &wm}
 }
 
 func (w WeatherService) GetWeatherSummary(ctx context.Context) (*model.Weather, error) {

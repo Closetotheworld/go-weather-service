@@ -2,7 +2,6 @@ package domain
 
 import (
 	"context"
-
 	// external packages
 
 	// project packages

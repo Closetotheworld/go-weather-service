@@ -34,7 +34,7 @@ type WeatherApiForecast struct {
 }
 
 type WeatherApiManager interface {
-	AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon)
+	AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error)
 }
 
 type WeatherApiManagerImpl struct {
@@ -172,8 +172,9 @@ func (w *WeatherApiManagerImpl) AsyncRequest(lat string, lon string) (*WeatherAp
 	})
 
 	for fh := range forecastHourOffset {
+		index := fh
 		eg.Go(func() error {
-			fw, err := w.GetForecastInfo(lat, lon, forecastHourOffset[fh])
+			fw, err := w.GetForecastInfo(lat, lon, forecastHourOffset[index])
 			if err != nil {
 				return err
 			}
@@ -183,8 +184,9 @@ func (w *WeatherApiManagerImpl) AsyncRequest(lat string, lon string) (*WeatherAp
 	}
 
 	for hh := range historicalHourOffset {
+		index := hh
 		eg.Go(func() error {
-			hw, err := w.GetHistoricalInfo(lat, lon, historicalHourOffset[hh])
+			hw, err := w.GetHistoricalInfo(lat, lon, historicalHourOffset[index])
 			if err != nil {
 				return err
 			}

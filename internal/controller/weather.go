@@ -17,7 +17,9 @@ func NewWeatherHeandler(weatherService domain.WeatherService) *WeatherHandler {
 }
 
 func (w *WeatherHandler) GetWeatherSummary(c *gin.Context) {
-	result, err := w.weatherService.GetWeatherSummary(c)
+	lat := c.Query("lat")
+	lon := c.Query("lon")
+	result, err := w.weatherService.GetWeatherSummary(c, lat, lon)
 
 	if err != nil {
 		c.JSON(400, "something")

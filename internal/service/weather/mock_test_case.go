@@ -1,4 +1,4 @@
-package service
+package weather
 
 import (
 	"github.com/closetotheworld/go-weather-service/pkg/weather"
@@ -139,7 +139,14 @@ func GetTempertureTestCase(caseNum int) (*WeatherCase, string) {
 		wc.Historical = append(wc.Historical, &weather.WeatherApiCommon{Temp: 10.5, HourOffset: "-24"})
 		answer = celsiusSame(wc.Current.Temp)
 	}
-	answer = answer + " " + minMaxCelsius(27.5, 10.1)
+	if caseNum == 0 {
+		answer = answer + " " + minMaxCelsius(30.5, 10.1)
+	} else if caseNum == 3 {
+		answer = answer + " " + minMaxCelsius(27.5, 0.5)
+	} else {
+		answer = answer + " " + minMaxCelsius(27.5, 10.1)
+	}
+
 	return &wc, answer
 }
 

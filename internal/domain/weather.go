@@ -9,5 +9,5 @@ import (
 )
 
 type WeatherService interface {
-	GetWeatherSummary(ctx context.Context, lat string, lon string) (*model.Weather, error)
+	GetWeatherSummary(ctx context.Context, lat string, lon string) (*model.WeatherResult, error)
 }

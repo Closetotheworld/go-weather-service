@@ -1,4 +1,4 @@
-package weather
+package weather_api
 
 import (
 	"github.com/stretchr/testify/assert"

@@ -9,14 +9,14 @@ import (
 
 	// project packages
 	"github.com/closetotheworld/go-weather-service/internal/controller"
-	"github.com/closetotheworld/go-weather-service/internal/service"
-	"github.com/closetotheworld/go-weather-service/pkg/weather"
+	"github.com/closetotheworld/go-weather-service/internal/service/weather"
+	"github.com/closetotheworld/go-weather-service/pkg/weather_api"
 )
 
 func StartServer(apiKey string, port string) {
 	r := gin.Default()
 
-	weatherService := service.NewWeatherService(&weather.WeatherApiManagerImpl{ApiKey: apiKey})
+	weatherService := weather.NewWeatherService(&weather_api.WeatherApiManagerImpl{ApiKey: apiKey})
 	weatherController := controller.NewWeatherHeandler(weatherService)
 
 	r.GET("/summary", weatherController.GetWeatherSummary)

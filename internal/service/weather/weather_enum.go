@@ -1,4 +1,4 @@
-package service
+package weather
 
 import "fmt"
 
@@ -7,6 +7,10 @@ const (
 	CODE_BLUR  = 1
 	CODE_RAINY = 2
 	CODE_SNOWY = 3
+
+	WEATHER_GREETING_RAIN_STANDARD      = 100
+	WEATHER_GREETING_CELSIUS_STANDARD   = 30
+	WEATHER_TEMPERTURE_CELSIUS_STANDARD = 15
 
 	WEATHER_SNOWY_PRECIPITATION_OVER = "폭설이 내리고 있어요."
 	WEATHER_SNOWY                    = "눈이 포슬포슬 내립니다."
@@ -26,12 +30,12 @@ const (
 
 var (
 	minMaxCelsius = func(max float32, min float32) string {
-		return fmt.Sprintf("최고기온은 %f도, 최저기온은 %f도 입니다.", max, min)
+		return fmt.Sprintf("최고기온은 %.1f도, 최저기온은 %.1f도 입니다.", max, min)
 	}
-	celsiusLowerOver  = func(celsius float32) string { return fmt.Sprintf("어제보다 %f도 덜 덥습니다.", celsius) }
-	celsiusLowerUnder = func(celsius float32) string { return fmt.Sprintf("어제보다 %f도 더 춥습니다.", celsius) }
-	celsiusUpperOver  = func(celsius float32) string { return fmt.Sprintf("어제보다 %f도 더 덥습니다.", celsius) }
-	celsiusUpperUnder = func(celsius float32) string { return fmt.Sprintf("어제보다 %f도 덜 춥습니다.", celsius) }
+	celsiusLowerOver  = func(celsius float32) string { return fmt.Sprintf("어제보다 %.1f도 덜 덥습니다.", celsius) }
+	celsiusLowerUnder = func(celsius float32) string { return fmt.Sprintf("어제보다 %.1f도 더 춥습니다.", celsius) }
+	celsiusUpperOver  = func(celsius float32) string { return fmt.Sprintf("어제보다 %.1f도 더 덥습니다.", celsius) }
+	celsiusUpperUnder = func(celsius float32) string { return fmt.Sprintf("어제보다 %.1f도 덜 춥습니다.", celsius) }
 	celsiusSame       = func(celsius float32) string {
 		if celsius > 15 {
 			return "어제와 비슷하게 덥습니다."

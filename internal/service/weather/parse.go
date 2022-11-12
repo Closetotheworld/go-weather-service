@@ -53,7 +53,7 @@ func ParseTemperture(currentTemp float32, historicalWeather []*weather_api.Weath
 	answer := ""
 
 	for i := range historicalWeather {
-		if historicalWeather[i].HourOffset == "-24" {
+		if historicalWeather[i].HourOffset == -24 {
 			yDayTemp = historicalWeather[i].Temp
 		}
 
@@ -106,7 +106,7 @@ func ParseHeadsUp(forecastWeather []*weather_api.WeatherApiForecast) string {
 	for i := range fw {
 		fmt.Println(fw[i].HourOffset)
 		mapWeather[fw[i].Code] += 6
-		if fw[i].HourOffset == "24" {
+		if fw[i].HourOffset == 24 {
 			if mapWeather[CODE_SNOWY] >= 12 {
 				answer = WEATHER_EXPECT_HEAVY_SNOW
 				return answer

@@ -21,7 +21,7 @@ func NewWeatherService(wm weather_api.WeatherApiManager) domain.WeatherService {
 	return &WeatherService{WeatherApiManager: wm}
 }
 
-func (w *WeatherService) GetWeatherSummary(ctx context.Context, lat string, lon string) (*model.WeatherResult, error) {
+func (w *WeatherService) GetWeatherSummary(ctx context.Context, lat float32, lon float32) (*model.WeatherResult, error) {
 	current, forecast, historical, err := w.WeatherApiManager.AsyncRequest(lat, lon)
 	if err != nil {
 		return nil, e.ErrorByStatus(http.StatusInternalServerError)

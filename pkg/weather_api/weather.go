@@ -2,9 +2,11 @@ package weather_api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	// external pacakges
 	"golang.org/x/sync/errgroup"
@@ -12,8 +14,8 @@ import (
 )
 
 var (
-	forecastHourOffset   = []string{"6", "12", "18", "24", "30", "36", "42", "48"}
-	historicalHourOffset = []string{"-6", "-12", "-18", "-24"}
+	forecastHourOffset   = []int{6, 12, 18, 24, 30, 36, 42, 48}
+	historicalHourOffset = []int{-6, -12, -18, -24}
 )
 
 type WeatherApiCommon struct {
@@ -21,7 +23,7 @@ type WeatherApiCommon struct {
 	Code       int     `json:"code"`
 	Temp       float32 `json:"temp"`
 	Rain1h     int     `json:"rain1h"`
-	HourOffset string
+	HourOffset int
 }
 
 type WeatherApiForecast struct {
@@ -30,11 +32,12 @@ type WeatherApiForecast struct {
 	MinTemp    float32 `json:"min_temp"`
 	MaxTemp    float32 `json:"max_temp"`
 	Rain1h     int     `json:"rain1h"`
-	HourOffset string
+	HourOffset int
 }
 
+//go:generate mockery --name WeatherApiManager --case underscore --inpackage
 type WeatherApiManager interface {
-	AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error)
+	AsyncRequest(lat float32, lon float32) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error)
 }
 
 type WeatherApiManagerImpl struct {
@@ -42,13 +45,13 @@ type WeatherApiManagerImpl struct {
 	Url    string
 }
 
-func (w *WeatherApiManagerImpl) GetCurrentInfo(lat string, lon string) (*WeatherApiCommon, error) {
+func (w *WeatherApiManagerImpl) GetCurrentInfo(lat float32, lon float32) (*WeatherApiCommon, error) {
 	result := &WeatherApiCommon{}
 
 	query := url.Values{}
 	query.Add("api_key", w.ApiKey)
-	query.Add("lat", lat)
-	query.Add("lon", lon)
+	query.Add("lat", fmt.Sprintf("%.1f", lat))
+	query.Add("lon", fmt.Sprintf("%.1f", lon))
 
 	base, err := url.Parse("https://thirdparty-weather-api-v2.droom.workers.dev/current")
 	if err != nil {
@@ -79,14 +82,14 @@ func (w *WeatherApiManagerImpl) GetCurrentInfo(lat string, lon string) (*Weather
 	return result, nil
 }
 
-func (w *WeatherApiManagerImpl) GetForecastInfo(lat string, lon string, hourOffset string) (*WeatherApiForecast, error) {
+func (w *WeatherApiManagerImpl) GetForecastInfo(lat float32, lon float32, hourOffset int) (*WeatherApiForecast, error) {
 	result := &WeatherApiForecast{}
 
 	query := url.Values{}
 	query.Add("api_key", w.ApiKey)
-	query.Add("lat", lat)
-	query.Add("lon", lon)
-	query.Add("hour_offset", hourOffset)
+	query.Add("lat", fmt.Sprintf("%.1f", lat))
+	query.Add("lon", fmt.Sprintf("%.1f", lon))
+	query.Add("hour_offset", strconv.Itoa(hourOffset))
 
 	base, err := url.Parse("https://thirdparty-weather-api-v2.droom.workers.dev/forecast/hourly")
 	if err != nil {
@@ -117,14 +120,14 @@ func (w *WeatherApiManagerImpl) GetForecastInfo(lat string, lon string, hourOffs
 	return result, nil
 }
 
-func (w *WeatherApiManagerImpl) GetHistoricalInfo(lat string, lon string, hourOffset string) (*WeatherApiCommon, error) {
+func (w *WeatherApiManagerImpl) GetHistoricalInfo(lat float32, lon float32, hourOffset int) (*WeatherApiCommon, error) {
 	result := &WeatherApiCommon{}
 
 	query := url.Values{}
 	query.Add("api_key", w.ApiKey)
-	query.Add("lat", lat)
-	query.Add("lon", lon)
-	query.Add("hour_offset", hourOffset)
+	query.Add("lat", fmt.Sprintf("%.1f", lat))
+	query.Add("lon", fmt.Sprintf("%.1f", lon))
+	query.Add("hour_offset", strconv.Itoa(hourOffset))
 
 	base, err := url.Parse("https://thirdparty-weather-api-v2.droom.workers.dev/historical/hourly")
 	if err != nil {
@@ -156,7 +159,7 @@ func (w *WeatherApiManagerImpl) GetHistoricalInfo(lat string, lon string, hourOf
 	return result, nil
 }
 
-func (w *WeatherApiManagerImpl) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error) {
+func (w *WeatherApiManagerImpl) AsyncRequest(lat float32, lon float32) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error) {
 	var currentWeather *WeatherApiCommon
 	var forecastWeather []*WeatherApiForecast
 	var historicalWeather []*WeatherApiCommon

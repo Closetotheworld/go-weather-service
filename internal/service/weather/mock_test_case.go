@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	forecastHourOffset   = []string{"6", "12", "18", "24", "30", "36", "42", "48"}
-	historicalHourOffset = []string{"-6", "-12", "-18", "-24"}
+	forecastHourOffset   = []int{6, 12, 18, 24, 30, 36, 42, 48}
+	historicalHourOffset = []int{-6, -12, -18, -24}
 )
 
 type WeatherCase struct {
@@ -69,7 +69,7 @@ func (w *WeatherCase) CreateForTestHistorical() {
 		})
 	}
 	for j := range historicalHourOffset {
-		if historicalHourOffset[j] == "-24" {
+		if historicalHourOffset[j] == -24 {
 			break
 		}
 		w.Historical = append(w.Historical, &weather_api.WeatherApiCommon{
@@ -121,25 +121,25 @@ func GetTempertureTestCase(caseNum int) (*WeatherCase, string) {
 
 	switch caseNum {
 	case 0:
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 30.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 30.5, HourOffset: -24})
 		answer = celsiusLowerOver(10)
 	case 1:
 		wc.Current.Temp = 10.5
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 20.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 20.5, HourOffset: -24})
 		answer = celsiusLowerUnder(10)
 	case 2:
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 10.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 10.5, HourOffset: -24})
 		answer = celsiusUpperOver(10)
 	case 3:
 		wc.Current.Temp = 10.5
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 0.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 0.5, HourOffset: -24})
 		answer = celsiusUpperUnder(10)
 	case 4:
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 20.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 20.5, HourOffset: -24})
 		answer = celsiusSame(wc.Current.Temp)
 	case 5:
 		wc.Current.Temp = 10.5
-		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 10.5, HourOffset: "-24"})
+		wc.Historical = append(wc.Historical, &weather_api.WeatherApiCommon{Temp: 10.5, HourOffset: -24})
 		answer = celsiusSame(wc.Current.Temp)
 	}
 	if caseNum == 0 {

@@ -10,11 +10,11 @@ type MockWeatherApiManager struct {
 }
 
 // AsyncRequest provides a mock function with given fields: lat, lon
-func (_m *MockWeatherApiManager) AsyncRequest(lat string, lon string) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error) {
+func (_m *MockWeatherApiManager) AsyncRequest(lat float32, lon float32) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error) {
 	ret := _m.Called(lat, lon)
 
 	var r0 *WeatherApiCommon
-	if rf, ok := ret.Get(0).(func(string, string) *WeatherApiCommon); ok {
+	if rf, ok := ret.Get(0).(func(float32, float32) *WeatherApiCommon); ok {
 		r0 = rf(lat, lon)
 	} else {
 		if ret.Get(0) != nil {
@@ -23,7 +23,7 @@ func (_m *MockWeatherApiManager) AsyncRequest(lat string, lon string) (*WeatherA
 	}
 
 	var r1 []*WeatherApiForecast
-	if rf, ok := ret.Get(1).(func(string, string) []*WeatherApiForecast); ok {
+	if rf, ok := ret.Get(1).(func(float32, float32) []*WeatherApiForecast); ok {
 		r1 = rf(lat, lon)
 	} else {
 		if ret.Get(1) != nil {
@@ -32,7 +32,7 @@ func (_m *MockWeatherApiManager) AsyncRequest(lat string, lon string) (*WeatherA
 	}
 
 	var r2 []*WeatherApiCommon
-	if rf, ok := ret.Get(2).(func(string, string) []*WeatherApiCommon); ok {
+	if rf, ok := ret.Get(2).(func(float32, float32) []*WeatherApiCommon); ok {
 		r2 = rf(lat, lon)
 	} else {
 		if ret.Get(2) != nil {
@@ -41,7 +41,7 @@ func (_m *MockWeatherApiManager) AsyncRequest(lat string, lon string) (*WeatherA
 	}
 
 	var r3 error
-	if rf, ok := ret.Get(3).(func(string, string) error); ok {
+	if rf, ok := ret.Get(3).(func(float32, float32) error); ok {
 		r3 = rf(lat, lon)
 	} else {
 		r3 = ret.Error(3)

@@ -1,7 +1,6 @@
 package weather
 
 import (
-	"fmt"
 	"sort"
 	"strings"
 
@@ -104,7 +103,6 @@ func ParseHeadsUp(forecastWeather []*weather_api.WeatherApiForecast) string {
 		return fw[i].HourOffset < fw[j].HourOffset
 	})
 	for i := range fw {
-		fmt.Println(fw[i].HourOffset)
 		mapWeather[fw[i].Code] += 6
 		if fw[i].HourOffset == 24 {
 			if mapWeather[CODE_SNOWY] >= 12 {

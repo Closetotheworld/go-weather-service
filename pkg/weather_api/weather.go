@@ -35,7 +35,6 @@ type WeatherApiForecast struct {
 	HourOffset int
 }
 
-//go:generate mockery --name WeatherApiManager --case underscore --inpackage
 type WeatherApiManager interface {
 	AsyncRequest(lat float32, lon float32) (*WeatherApiCommon, []*WeatherApiForecast, []*WeatherApiCommon, error)
 }

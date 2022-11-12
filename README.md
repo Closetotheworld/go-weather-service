@@ -17,6 +17,7 @@ Go 1.18.x
 cd $GOPATH
 mkdir -p src/Closetotheworld
 git clone https://github.com/Closetotheworld/go-weather-service.git
+go mod download
 go run main.go -k {API_KEY} -p {PORT}
 ```
 
@@ -26,6 +27,14 @@ go run main.go -k {API_KEY} -p {PORT}
 
 docker build . -t weather-api   
 docker run --rm -p {PORT_WHAT_YOU_WANT}:{PORT} --name weather-api weather-api -k {API_KEY} -p {PORT}
+```
+
+## Document
+
+```
+// you can check the api's document at swagger
+
+http://{HOST:PORT}/swagger/index.html
 ```
 
 ## Running the tests

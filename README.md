@@ -9,14 +9,24 @@
 Go 1.18.x
 ```
 
-### Installing
+### Run (at your local stage)
 
 ```
+// PORT option is optional. default value is 8080 
+
 cd $GOPATH
 mkdir -p src/Closetotheworld
 git clone https://github.com/Closetotheworld/go-weather-service.git
+go run main.go -k {API_KEY} -p {PORT}
 ```
 
+### Run (at your docker stage)
+```
+// PORT option is optional. default value is 8080
+
+docker build . -t weather-api   
+docker run --rm -p {PORT_WHAT_YOU_WANT}:{PORT} --name weather-api weather-api -k {API_KEY} -p {PORT}
+```
 
 ## Running the tests
 

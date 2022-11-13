@@ -1,0 +1,51 @@
+definitions:
+  model.Weather:
+    properties:
+      gretting:
+        type: string
+      heads_up:
+        type: string
+      temperture:
+        type: string
+    type: object
+  model.WeatherResult:
+    properties:
+      summary:
+        $ref: '#/definitions/model.Weather'
+    type: object
+info:
+  contact: {}
+paths:
+  /summary:
+    get:
+      consumes:
+      - application/json
+      description: weather에 대한 summary를 반환환다.
+      parameters:
+      - in: query
+        maximum: 90
+        minimum: -90
+        name: lat
+        required: true
+        type: number
+      - in: query
+        maximum: 180
+        minimum: -180
+        name: lon
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/model.WeatherResult'
+        "400":
+          description: Invalid parameter requested
+        "408":
+          description: request timeout
+        "500":
+          description: Internal Server error
+      summary: GetWeatherSummary
+swagger: "2.0"

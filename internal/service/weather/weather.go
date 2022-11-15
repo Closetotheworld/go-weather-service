@@ -28,9 +28,9 @@ func (w *WeatherService) GetWeatherSummary(ctx context.Context, lat float32, lon
 	}
 
 	parseResult := model.Weather{
-		Greeting:   ParseGreeting(*current),
-		Temperture: ParseTemperture(current.Temp, historical),
-		HeadsUp:    ParseHeadsUp(forecast),
+		Greeting:    ParseGreeting(*current),
+		Temperature: ParseTemperture(current.Temp, historical),
+		HeadsUp:     ParseHeadsUp(forecast),
 	}
 	return &model.WeatherResult{Summary: parseResult}, nil
 }

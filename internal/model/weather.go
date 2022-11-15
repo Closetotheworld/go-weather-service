@@ -5,7 +5,7 @@ type WeatherResult struct {
 }
 
 type Weather struct {
-	Greeting   string `json:"gretting"`
-	Temperture string `json:"temperture"`
-	HeadsUp    string `json:"heads_up"`
+	Greeting    string `json:"greeting"`
+	Temperature string `json:"temperature"`
+	HeadsUp     string `json:"heads-up"`
 }

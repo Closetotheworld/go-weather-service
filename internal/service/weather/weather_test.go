@@ -47,7 +47,7 @@ func TestWeatherService_GetWeatherSummary(t *testing.T) {
 
 			w, err := ws.GetWeatherSummary(ctx, 10, 120)
 			assert.Nil(t, err)
-			assert.Equal(t, result, w.Summary.Temperture)
+			assert.Equal(t, result, w.Summary.Temperature)
 		}
 	})
 

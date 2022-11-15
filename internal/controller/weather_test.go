@@ -49,9 +49,9 @@ func TestWeatherHandler_GetWeatherSummary(t *testing.T) {
 		w := NewWeatherHeandler(mockWeatherService)
 		mockResult := model.WeatherResult{
 			Summary: model.Weather{
-				Greeting:   "mockGreeting",
-				Temperture: "mockTemperture",
-				HeadsUp:    "mockHeadsUp",
+				Greeting:    "mockGreeting",
+				Temperature: "mockTemperture",
+				HeadsUp:     "mockHeadsUp",
 			},
 		}
 		mockWeatherService.On("GetWeatherSummary", mock.Anything, mock.Anything, mock.Anything).Return(&mockResult, nil)
